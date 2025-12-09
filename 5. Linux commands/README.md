@@ -234,6 +234,19 @@ $ echo -e "Hello \tbeautiful \tworld"
 Hello   beautiful       world
 ```
 
+- Try the following backslash escapes as well:
+    - `\b`
+    - `\c`
+    - `\n`
+    - `\r`
+    - `\v`
+- Try displaying environment variables with `echo`
+
+- You can redirect the output of echo (or any other command) into a file
+```
+$ echo "Hello World" > output.txt
+```
+
 ## ls
 - "list"
 - lists files and directories in the given directory
@@ -253,5 +266,130 @@ $ ls /
 bin  boot  dev  etc  home  lib  lost+found
 ```
 
+- try the following options:
+```
+$ ls -a
+$ ls -l
+$ ls -al
+$ ls -t
+$ ls -R
+$ ls -r
+```
+- handy way to see in a large directory which files were last changed:
+```
+$ ls -lrt
+```
+
 ## cd
 - "change directory"
+- you can specify a relative path from your current working directory
+```
+$ pwd
+/home/sanyi0411
+$ cd Downloads
+$ pwd
+/home/sanyi0411/Downloads
+```
+- the `.` is an abbreviation for the current directory, so if a path starts with `.` it is a relative path
+```
+$ cd ./Downloads/MySongs
+```
+- you can specify an absolute path from the root directory `/`
+```
+$ pwd
+/home/sanyi0411
+$ cd /media/Movies
+$ pwd
+/media/Movies
+```
+- to `..` is an abbreviation for the parent folder of the current folder, so it means one folder up
+```
+$ pwd
+/home/sanyi0411
+$ cd ../../media/Movies
+$ pwd
+/media/Movies
+```
+- if your directory name have space(s), use quotes around the path or use backslash to escape the spaces
+```
+$ cd "/home/My User/My Secret Documents"
+$ cd /home/My\ User/My\ Secret\ Documents
+```
+- to return to the previous directory you were at (not the parent):
+```
+$ cd -
+```
+
+## touch
+- `touch` is used to 1) create a new empty file of any type or 2) update the access and modify timestamps of existing an file
+- `touch` cannot create directory
+```
+$ touch file.txt
+```
+- try to write something is this file using the `echo` command
+- you can create multiple files at once
+```
+$ touch file1.txt file2.txt file3.txt
+```
+
+## mkdir
+- "make directory"
+- creates a new empty directory
+- you can use a relative path
+```
+$ mkdir MyDir
+```
+- or you can use an absolute path
+```
+$ mkdir /home/myuser/mystuff
+```
+
+## cp
+- "copy"
+- copies the file in it's first argument to the position given in the second argument
+```
+$ cp myfile.txt myfile_copy.txt
+$ cp /home/myuser/Downloads /home/myuser/Documents
+```
+- to copy a file into a folder:
+    - in this case the new file's name will be the same as the original file's name
+```
+$ cp myfile.txt testdirectory/
+```
+
+## mv
+- "move"
+- it can move a file from the location given in the first argument, to the location in the second argument
+```
+$ move file.txt testdir/
+```
+- if you move the file to the same directory as it were in, then you rename the file:
+```
+$ cd myfile.txt myfilerenamed.txt
+```
+- you can also use it to rename a directory:
+```
+$ mv mydir mydir_copy
+```
+- you can combine moving and renaming into one command
+```
+$ mv /home/sanyi/Downloads/temp.txt /home/sanyi0411/Documents/final.txt
+```
+
+## rm
+- "remove"
+- removes or deletes files and folders (directories)
+```
+$ rm myoldfile.txt
+$ rm myolddir
+```
+- use the `-i` option for interactive deleting
+    - this prompts you for conformation before deleting each file
+```
+$ rm -i file5.txt
+$ rm -i notusedfolder
+```
+- to remove a directory, all its files, and do it recursively for every directory within:
+```
+$ rm -r testdirectory
+```
