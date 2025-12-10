@@ -13,6 +13,11 @@
 [echo](#echo) </br>
 [ls](#ls) </br>
 [cd](#cd) </br>
+[touch](#touch) </br>
+[mkdir](#mkdir) </br>
+[cp](#cp) </br>
+[move](#move) </br>
+[cat](#cat) </br>
 
 
 ## General
@@ -211,7 +216,7 @@ $ pwd
 /home/myuser
 ```
 
-# echo
+## echo
 - Displays lines of text that are passed as arguments
 ```
 $ echo "Hello World"
@@ -393,3 +398,40 @@ $ rm -i notusedfolder
 ```
 $ rm -r testdirectory
 ```
+
+## cat
+- "concatenate"
+- mostly used to view the contents of a file
+- `cat` will output the contents of the file, given in the first argument, to the terminal:
+```
+$ cat /tmp/lorem
+Lorem
+ipsum
+dolor
+sit
+```
+- you can add line numbers to the output:
+```
+$ cat -n /tmp/lorem
+    1  Lorem
+    2  ipsum
+    3  dolor
+    4  sit
+```
+- you can also use `cat` to create a file
+    - after the command the terminal will wait for you to type the contents of the file
+    - press Ctrl+D to save and close the file
+```
+$ cat > mynewfile.txt
+```
+- you can also use `cat` to combine contents of files
+- to output the contents of multiple files to the terminal:
+```
+$ cat file1.txt file2.txt
+```
+- to concatenate the contents of files into a new file:
+```
+$ cat file1.txt file2.txt > mergedfile.txt
+```
+
+## head
