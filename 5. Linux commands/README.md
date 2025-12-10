@@ -435,3 +435,78 @@ $ cat file1.txt file2.txt > mergedfile.txt
 ```
 
 ## head
+- `head` reads the first few lines of the given file and outputs it to the terminal
+- by default the first 10 lines of the file are read and output to the terminal
+```
+$ head myfile.txt
+```
+- you can specify how many line should be read:
+    - in this case only the first 2 lines will be read
+    - both lines below mean the same thing
+```
+$ head -n2 myfile.txt
+$ head -2 myfile.txt
+```
+- you can also specify the number of bytes to be read from the beginning of the file:
+``` 
+$ head -c2 myfile.txt
+```
+
+## tail
+- `tail` is the opposite of `head`
+- `tail` reads the last few lines of the given file
+- by default the last 10 lines will be read
+```
+$ tail myfile.txt
+```
+- you can specify the number of lines to be read:
+    - in this case only the last 3 lines will be read
+    - both lines below mean the same thing
+```
+$ tail -n3 myfile.txt
+$ tail -3 myfile.txt
+```
+- you can also specify the number of bytes to be read from the end of the file:
+    - try the difference between `-c1` and `-c2`
+    - the last character in a file is usually a new line character which is invisible
+``` 
+$ tail -c1 myfile.txt
+$ tail -c2 myfile.txt
+```
+- there is an option for `tail` that is not present for `head`
+- you can specify the starting line number, from where the data will be read, to the end of the file
+```
+$ tail +25 myfile.txt
+```
+## diff
+- "difference"
+- compares files and shows their differences
+    - `1c1` means that line 1 in the first file needs to be changed to match line 1 in the second file
+    - `<` symbol indicates that this line is from the first file
+    - `>` symbol indicates that this line is from the second file
+    - `---` separator
+```
+$ diff file1 file2
+1c1
+< this is file1
+---
+> this is file 2
+```
+- you can get more context around the differences:
+    - The first file is denoted by `***`, the second file is denoted by `---`
+```
+$ diff -c file1 file2
+*** file1 2025-01-01 01:00:00.00000000 +0100
+--- file2 2025-01-01 01:00:00.00000000 +0100
+************
+*** 1 ***
+! this is file1
+--- 1 ---
+! this is file 2
+```
+- you can recursively compare directories as well:
+    - shows files that are in one directory but not it the other
+```
+$ diff -r ~/Desktop ~/Code
+Only in /home/myuser/Desktop: gedit.desktop
+```
