@@ -33,7 +33,6 @@ Hello World
 ## whoami
 
 - Gives you the current user's username
-
 ```
 $ whoami
 sanyi0411
@@ -45,21 +44,18 @@ sanyi0411
 - uid: User ID
 - gid: Group ID, user's primary group ID
 - groups: all the groups the user is a member of
-
 ```
 $ id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
 - To find the ID of a given user:
-
 ```
 $ id sanyi0411
 uid=1234(sanyi0411) gid=2345(users) groups=1111(apple),2222(banana),3333(cinnamon)
 ```
 
 - To get only the UID of a given user (number or name):
-
 ```
 $ id -u sanyi0411
 1234
@@ -69,7 +65,6 @@ sanyi0411
 ```
 
 - To get only the GID of a given user:
-
 ```
 $ id -g sanyi0411
 2345
@@ -79,7 +74,6 @@ users
 ```
 
 - To get all the groups a given user belongs to:
-
 ```
 $ id -G sanyi0411
 1111 2222 3333
@@ -246,6 +240,7 @@ Hello   beautiful       world
     - `\r`
     - `\v`
 - Try displaying environment variables with `echo`
+    - hint: environment variables start with `$`
 
 - You can redirect the output of echo (or any other command) into a file
 ```
@@ -284,6 +279,31 @@ $ ls -r
 ```
 $ ls -lrt
 ```
+- the `ls -l` command shows detailed information about the file(s)
+```
+$ ls -l
+-rw-rw-r-- 1 sanyi0411 sanyi0411 0 Jul 29 15:11 example.txt
+```
+- here the first group is the file permissions:
+    - the first character is the type: 
+        - `-`for regular file
+        - `d` for directory
+        - `l` for link
+    - the next 3 characters are the owner permissions:
+        - `r` for read permission
+        - `w` for write permission
+        - `x` for execute permission
+    - the next 3 characters are the group permissions
+        - same abbreviations as for owner permissions
+    - the last 3 characters are the other permission, for users who do not belong in the given group
+        - same abbreviations as for owner permissions
+- the second group, the number, in the number of hardlinks
+- the first `sanyi0411` is the file owner
+- the second `sanyi0411` the file group
+- the next number is the file size
+- next is the modification date
+- and finally the file name
+
 
 ## cd
 - "change directory"
@@ -509,4 +529,55 @@ $ diff -c file1 file2
 ```
 $ diff -r ~/Desktop ~/Code
 Only in /home/myuser/Desktop: gedit.desktop
+```
+
+## sudo
+- "superuser do"
+- `sudo` in itself is not a command
+- `sudo` runs the following command with `root` privileges
+    - `root` is the administrator account on Linux systems, it has special  privileges
+- when you run a command with `sudo` you will likely the be prompted for you password 
+- some commands require elevated privileges (can only be run with as `root`) because they can affect system security
+- Why should you use `sudo`?:
+    - Security: you don't need to login as the all-powerful `root`, you can just borrow it's privileges temporarily 
+    - Auditability: when a user runs a sudo command it is logged in `/var/log/auth.log`
+    - Granularity: the sysadmin can precisely control which users can run which commands using the `sudoers` file
+
+## chown
+- "change owner"
+- changes the file owner and/or group
+- to change only the owner of a file:
+```
+$ ls -l file.txt
+-rw-rw-r-- 1 myuser myuser 0 Jan 01 01:00 file.txt
+$ chown otheruser file.txt
+$ ls -l file.txt
+-rw-rw-r-- 1 otheruser myuser 0 Jan 01 01:00 file.txt
+```
+- to change only the group of a file:
+```
+$ ls -l file.txt
+-rw-rw-r-- 1 myuser myuser 0 Jan 01 01:00 file.txt
+$ chown :othergroup file.txt
+$ ls -l file.txt
+-rw-rw-r-- 1 myuser othergroup 0 Jan 01 01:00 file.txt
+```
+- to change the owner and the group at the same time:
+```
+$ ls -l file.txt
+-rw-rw-r-- 1 myuser myuser 0 Jan 01 01:00 file.txt
+$ chown otheruser:othergroup file.txt
+$ ls -l file.txt
+-rw-rw-r-- 1 otheruser othergroup 0 Jan 01 01:00 file.txt
+```
+- as you can see, by default `chown` runs silently, meaning no output is given after the command is run succesfully
+- if you want some output of the successful command use the `-v` (verbose) option:
+```
+$ chown -v otheruser:othergroup file.txt
+changed ownership of 'file.txt' from myuser:myuser to otheruser:othergroup
+```
+- you can make sure that ownership is only changed if the file's current owner is what you specified
+    - in this case the ownership only changes if the file's current owner is `sanyi0411`, in any other case the ownership will not be changed
+```
+$ chown --from=sanyi0411 root myfile.txt
 ```
