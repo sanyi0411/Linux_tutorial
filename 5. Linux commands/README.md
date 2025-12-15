@@ -274,6 +274,7 @@ $ ls -al
 $ ls -t
 $ ls -R
 $ ls -r
+$ ls -d
 ```
 - handy way to see in a large directory which files were last changed:
 ```
@@ -367,6 +368,15 @@ $ mkdir MyDir
 - or you can use an absolute path
 ```
 $ mkdir /home/myuser/mystuff
+```
+- by default `mkdir` does not create the parent directory
+```
+$ mkdir /new-dir/subdir
+mkdir: cannot create directory 'new-dir/subdir': No such file or directory
+```
+- you can use the `-p` option the create the parent directories as needed:
+```
+$ mkdir -p /new-dir/subdir
 ```
 
 ## cp
@@ -580,4 +590,71 @@ changed ownership of 'file.txt' from myuser:myuser to otheruser:othergroup
     - in this case the ownership only changes if the file's current owner is `sanyi0411`, in any other case the ownership will not be changed
 ```
 $ chown --from=sanyi0411 root myfile.txt
+```
+- you can use `chown` to change the ownership of an entire directory and its contents
+    - `-R` is for 'recursively'
+    - it will change the ownership of all files and subdirectories within `mydirectory`
+```
+$ sudo chown -R root:root mydirectory
+```
+
+## chmod
+- "change mode"
+- lets check any file with the `ls -l` command:
+```
+$ ls -l example.txt
+-rw-rw-r-- 1 sanyi0411 sanyi0411 0 Jul 29 15:11 example.txt
+```
+- the first group (first 10 characters) in the output represents the mode
+    - the first character is the type:
+        - `-` states that it is a normal file
+        - `d` would be a directory
+        - `l` would be a link
+    - the next 3 characters are the owner permissions:
+        - `r` for read, or `-` for no read persmission
+        - `w` for write, or `-` for no write persmission
+        - `x` for execute, or `-` for no execute persmission
+    - the next 3 character are the group permissions:
+        - same as for the owner permissions
+    - the last 3 characters are the other permissions:
+        - user that are not the owner, nor belong to the owner group
+        - same as for the owner permissions
+- in this case you can see that `example.txt`
+    - is a normal file (1st character `-`)
+    - the owner has read and write permission but no execute permission: `rw-`
+    - the group has read and write permission but no execute permission: `rw-`
+    - others have only read permission: `r--`
+- there are different ways to tell `chmod` how to change permissions
+    1.  using a numeric representation:
+        - image the 3 permissions as 3 bits: 1 for permission, 0 for no permission
+        - `111` for `rwx`: read, write and execute permission
+        - `110` for `rw-`: read and write but no execute permission
+        - `101` for `r-e`: read and execute but no write permission
+        - translate this into decimal numbers
+        - `111` to 7, `110` to 6, `001` to 1 and so on
+        - provide `chmod` a 3 digit number, the first number for the user permission, the second for the group and the third for the others
+        - to give read, write and execute permission for everybody on `myscript` file:
+        ```
+        $ sudo chmod 777 myscript
+        ```
+        - to give read, write and execute permission for the owner, but no permission for anybody else:
+        ```
+        $ sudo chmod 700 myscript
+        ```
+    2. using symbolic notation
+        - `u`for user, `g` for group, `o` for others
+        - `+` for adding a certain permission, `-` for removing
+        - `r` for read, `w` for write and `x` for execute permission
+        - to add the user and group execute permission over `myscript`:
+        ```
+        $ sudo chmod ug+x myscript
+        ```
+        - to remove others write permission over `myscript`
+        ```
+        $ sudo chmod o-w myscript
+        ```
+- `chmod` can be used to change permission for directories:
+    - directory permission control who can list the contents of the directory, who can create new files and access files already there
+```
+$ chmod 700 ~/mydir
 ```
