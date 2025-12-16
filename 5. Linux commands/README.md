@@ -712,7 +712,7 @@ uid=1005(newuser) gid=1000(existinggroup) groups=1000(existinggroup)
 $ sudo useradd -e 2025-12-31 newuser
 ```
 
-### passwd
+## passwd
 - used to change your own password or reset other user's password (if you are an administrator)
 - passwords are not displayed as you type them
 - to change your own password:
@@ -741,7 +741,7 @@ $ sudo passwd -u joker
 passwd: password expiry information changed.
 ```
 
-### usermod
+## usermod
 - change properties of a Linux user
 - to add a comment for an existing user:
 ```
