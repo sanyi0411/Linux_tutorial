@@ -18,6 +18,15 @@
 [cp](#cp) </br>
 [move](#move) </br>
 [cat](#cat) </br>
+[head](#head) </br>
+[tail](#tail) </br>
+[diff](#diff) </br>
+[sudo](#sudo) </br>
+[chown](#chown) </br>
+[chmod](#chmod) </br>
+[useradd](#useradd) </br>
+[passwd](#passwd) </br>
+[usermod](#usermod) </br>
 
 
 ## General
@@ -552,6 +561,12 @@ Only in /home/myuser/Desktop: gedit.desktop
     - Security: you don't need to login as the all-powerful `root`, you can just borrow it's privileges temporarily 
     - Auditability: when a user runs a sudo command it is logged in `/var/log/auth.log`
     - Granularity: the sysadmin can precisely control which users can run which commands using the `sudoers` file
+- The `sudo` group:
+    - users in this group can perform system-wide administration tasks
+    - users in this group can install/update softwares
+    - users in this group can modify system configuration files
+    - users in this group can create, modify, delete other user accounts
+    - users in this group don't need to know te root password to use `sudo`
 
 ## chown
 - "change owner"
@@ -657,4 +672,111 @@ $ ls -l example.txt
     - directory permission control who can list the contents of the directory, who can create new files and access files already there
 ```
 $ chmod 700 ~/mydir
+```
+
+## useradd
+- adds a new user:
+```
+$ sudo useradd newuser
+```
+- by default no home directory is created
+- to create a new user and create a home directory for them as well:
+    - this creates the home folder `/home/otheruser`
+```
+$ sudo useradd -m otheruser
+```
+- to NOT create a home directory for the new user:
+    - even if the system wide setting `CREATE_HOME` is set to true
+```
+$ sudo useradd -M otheruser
+```
+- to add a new user and specify the home directory path for the user:
+```
+$ sudo useradd -d /home/userfolder thirduser
+$ sudo useradd --home-dir /home/userfolder thirduser
+```
+- to create a new user with a specific user ID:
+```
+$ sudo useradd -u 2345 newuser
+$ id newuser
+uid=2345(newuser) gid=2345(newuser) groups=2345(newuser)
+```
+- to create a new user with a specific group ID:
+```
+$ sudo useradd -g 1000 newuser
+$ id newuser
+uid=1005(newuser) gid=1000(existinggroup) groups=1000(existinggroup)
+```
+- to create a new user with an expiry date
+```
+$ sudo useradd -e 2025-12-31 newuser
+```
+
+### passwd
+- used to change your own password or reset other user's password (if you are an administrator)
+- passwords are not displayed as you type them
+- to change your own password:
+```
+$ passwd
+Changing password for myuser.
+Current password:
+New password:
+Retype new password:
+```
+- to change others' password:
+```
+$ sudo passwd user8
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+```
+- to lock (temporarily disable) a user account:
+```
+$ sudo passwd -l user8
+passwd: password expiry information changed.
+```
+- to unlock a user account:
+```
+$ sudo passwd -u joker
+passwd: password expiry information changed.
+```
+
+### usermod
+- change properties of a Linux user
+- to add a comment for an existing user:
+```
+$ sudo usermod -c "This is a test user" user8
+```
+- to change the home directory of a user:
+```
+$ sudo usermod -d /home/otherhomedir user8
+```
+- to change the default shell of a user:
+```
+$ sudo usermod -s /bin/bash user8
+```
+- to change the group of a user:
+```
+$ sudo usermod -g othergroup user8
+```
+- to add a user to a group without removing from other groups (append)
+```
+$ sudo usermod -aG othergroup user8
+$ groups user8
+user8 : user8 othergroup
+```
+
+## userdel
+- used to delete linux users
+```
+$ sudo userdel user123
+```
+- to force a user deletion
+    - it doesn't matter if the user is still logged in
+```
+$ sudo userdel -f user123
+```
+- to delete the user's home directory and mail spool as well:
+```
+$ sudo userdel -r user123
 ```
