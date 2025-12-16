@@ -46,4 +46,23 @@ FHS
 
 
 ![Standard unix filesystem](images/standard-unix-filesystem-hierarchy-1.webp)
-source: linuxfoundation.org/
+source: linuxfoundation.org
+
+## Often used directories and files
+
+### /etc/passwd
+- this file is like a phonebook for all user accounts
+- each line represents one user account
+```
+myuser:x:50001:5001::/home/myuser:/bin/sh
+```
+- `myuser`: username
+- `x`: password (the actual password is stored securely in `/etc/shadow`)
+- `5001`: user ID
+- `5001`: group ID
+- `/home/myuser`: home directory
+- `/bin/sh`: default shell
+
+### /etc/shadow
+- text based password file
+- stores hashed passphrases for Linux user accounts
