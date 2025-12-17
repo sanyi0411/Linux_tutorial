@@ -2,7 +2,6 @@
 
 ## Contents
 [General](#general) </br>
-[echo](#echo) </br>
 [whoami](#whoami) </br>
 [id](#id) </br>
 [ps](#ps) </br>
@@ -33,14 +32,7 @@
 - Linux is case sensitive
 - Spaces matter
 
-## echo
-```
-$ echo "Hello World"
-Hello World
-```
-
 ## whoami
-
 - Gives you the current user's username
 ```
 $ whoami
@@ -48,7 +40,6 @@ sanyi0411
 ```
 
 ## id
-
 - Gives you the IDs and what groups the user belong to
 - uid: User ID
 - gid: Group ID, user's primary group ID
@@ -57,7 +48,6 @@ sanyi0411
 $ id
 uid=0(root) gid=0(root) groups=0(root)
 ```
-
 - To find the ID of a given user:
 ```
 $ id sanyi0411
@@ -68,31 +58,25 @@ uid=1234(sanyi0411) gid=2345(users) groups=1111(apple),2222(banana),3333(cinnamo
 ```
 $ id -u sanyi0411
 1234
-
 $ id -nu sanyi0411
 sanyi0411
 ```
-
 - To get only the GID of a given user:
 ```
 $ id -g sanyi0411
 2345
-
 $ id -ng sanyi0411
 users
 ```
-
 - To get all the groups a given user belongs to:
 ```
 $ id -G sanyi0411
 1111 2222 3333
-
 $ id -nG sanyi0411
 apple banana cinnamon
 ```
 
 ## ps
-
 - "process status"
 - UID: owner's user ID
 - PID: process ID of the running process
@@ -252,8 +236,17 @@ Hello   beautiful       world
     - hint: environment variables start with `$`
 
 - You can redirect the output of echo (or any other command) into a file
+    - This writes `Hello World" into the `output.txt` file
+    - The file will be created if does not exist yet
+    - If the file exists, the contents will be overwritten!
 ```
 $ echo "Hello World" > output.txt
+```
+- You can also redirect the output of `echo` (or any other command) into a file wihout overwriting the existing contents of the file
+    - This will append a new line at the of the file
+    - The file will be created if does not exist yet
+```
+$ echo "Appended line" >> output.txt
 ```
 
 ## ls
@@ -729,6 +722,18 @@ $ sudo passwd user8
 Enter new UNIX password:
 Retype new UNIX password:
 passwd: password updated successfully
+```
+- to display status information of an account:
+    - 1st field: login name
+    - 2nd field: `L` locked password, `NP` for no password, `P` for usable password
+    - 3rd field: date of last password change
+    - 4th field: minimum age (days)
+    - 5th field: maximum age (days)
+    - 6th field: warning period (days)
+    - 7th field: inactivity period (days)
+```
+$ sudo passwd -S user8
+user8 P 01/01/2025 0 99999 7 -1
 ```
 - to lock (temporarily disable) a user account:
 ```
