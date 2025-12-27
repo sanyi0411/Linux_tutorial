@@ -5,4 +5,4 @@
 [3. Linux GUI systems](./3.%20Linux%20GUI%20systems/README.md) </br>
 [4. Linux processes](./4.%20Linux%20processes/README.md) </br>
 [5. Linux commands](./5.%20Linux%20commands/README.md) </br>
-[5. Shell](./6.%20Shell/README.md) </br>
+[6. Shell](./6.%20Shell/README.md) </br>
