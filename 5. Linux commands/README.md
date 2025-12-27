@@ -29,6 +29,12 @@
 
 
 ## General
+- Linux commands are executable files, usually located in `/bin`, `/usr/bin` or `/usr/sbin`
+- The shell launches these as separate processes
+    - [What is a shell?](../6.%20Shell/README.md)
+- Linux commands exist even without a shell
+- Linux commands can be run from any shell
+- Linux commands can be run from scripts or other programs via `exec`
 - Linux is case sensitive
 - Spaces matter
 
