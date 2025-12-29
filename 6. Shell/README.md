@@ -39,8 +39,18 @@ There are commands that exist both as a Linux command (for POSIX compatibility) 
 ## TODO
 
 ## Variables
+- By default variables a global
+- They can use the `local` keyword
+```bash
+GLOBAL_VAR=5
+
+myfunc() {
+    local LOCAL_VAR=6
+}
+```
 
 ## Arrays
+- In Bash arrays are defined by enclosing the elements in parentheses `()` and separating them with spaces
 
 ```bash
 NAMES=("Alice" "Bob" "Claire" "Daniel")
@@ -66,6 +76,12 @@ NAMES=("Alice" "Bob" "Claire" "Daniel")
 
 for name in "${NAMES[@]}"; do
     echo "Hello, $name!"
+done
+
+a=(3 5 8 10 6)
+
+for x in "${a[@]}"; do
+    echo $x
 done
 ```
 
@@ -130,4 +146,73 @@ done
 4
 5
 Break at 6
+```
+
+## Functions
+- Creating and calling a function without parameters:
+```bash
+#!/bin/bash
+
+greet() {
+  echo "Hello World!"
+}
+
+greet
+```
+
+- Function with parameters:
+```bash
+calculate() {
+  echo "The sum of $1 and $2 is $(($1 + $2))"
+}
+
+calculate 5 3
+```
+
+- Functions is shell don't return values. They can either `echo` a value, that can be captured, or they can modify a global variable
+- `echo`ing a result:
+```bash
+get_square() {
+  echo $(($1 * $1))
+}
+
+result=$(get_square 5)
+```
+- modifying a global variable:
+```bash
+RESULT=0
+set_global_result() {
+  RESULT=$(($1 * $1))
+}
+```
+
+## Switch case
+```bash
+#!/bin/bash
+
+ENGLISH_CALC() {
+  local num1=$1
+  local operation=$2
+  local num2=$3
+  local result
+
+  case $operation in
+    plus)
+      result=$((num1 + num2))
+      echo "$num1 + $num2 = $result"
+      ;;
+    minus)
+      result=$((num1 - num2))
+      echo "$num1 - $num2 = $result"
+      ;;
+    times)
+      result=$((num1 * num2))
+      echo "$num1 * $num2 = $result"
+      ;;
+    *)
+      echo "Invalid operation. Please use 'plus', 'minus', or 'times'."
+      return 1
+      ;;
+  esac
+}
 ```
