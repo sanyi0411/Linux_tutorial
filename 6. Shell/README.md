@@ -1,3 +1,14 @@
+# Shell
+
+## Contents
+[What is a shell?](#what-is-a-shell) </br>
+[Basic architecture](#basic-architecture) </br>
+[Shell commands](#shell-commands) </br>
+[Variables](#variables) </br>
+[Special variables](#special-variables) </br>
+[Read input](#read-input) </br>
+[Arrays](#arrays) </br>
+
 ## What is a shell?
 
 The core of an operation system is called the `kernel`. For example Linux is a kernel.
@@ -21,7 +32,7 @@ And there are graphical shells:
 - Windows:
     - Windows Desktop
 
-## Basic architecture
+## Basicarchitecture
 
 ```
 +-----+       +-------+       +-----------+      +----------+
@@ -29,7 +40,7 @@ And there are graphical shells:
 +-----+       +-------+       +-----------+      +----------+
 ```
 
-## Shell commands
+## Shellcommands
 Shell commands are implemented inside the shell itself.
 
 Unlike [Linux commands](../5.%20Linux%20commands/), they are not separate executables and using them does not require creating a new process.
@@ -139,6 +150,33 @@ fi
 age=23
 if [ $age -ge 18 ]; then
   echo "You can buy beer"
+fi
+```
+- `-e` or `-a` check if file exists
+  - can be regular file, directory
+- `-d` check if file exists and it is a directory
+- `-r` check if file exists and is readable by current user
+- `-s` check if file exists and size is greater than 0
+- `-h` or `-L` check if file exists and is a symbolic link
+```bash
+#!/bin/bash
+
+filename="test.txt"
+if [ -e "$filename" ]; then
+  echo "file $filename exists"
+else
+  echo "file $filename does not exist"
+fi
+```
+
+```bash
+#!/bin/bash
+
+dirname="test_directory"
+if [ -d "$dirname" ]; then
+  echo "directory $dirname exists"
+else
+  echo "directory $dirname does not exist"
 fi
 ```
 
@@ -297,4 +335,43 @@ ENGLISH_CALC() {
       ;;
   esac
 }
+```
+
+## trap
+- `trap` specifies what code to run when the program receives a given signal
+  - `SIGINT`, like `Ctrl+C`
+  - `SIGTERM` used for stopping processes gracefully
+  - `SIGKILL` forcefully terminates a process
+  - `SIGTSTP` signal terminal stop, pressing `Ctrl+Z`
+- It traps the received signal and executes a specific code provided
+- Acts like a trigger in response to a signal, like `try-catch
+
+```bash
+trap [ -options ] "piece of code" [ signal name, value ]
+```
+
+- Here, `trap` calls the `cleanup()` function when `Ctrl+C` is pressed
+```bash
+#!/bin/bash
+
+cleanup() {
+  echo -e "\nSignal received! Cleaning up..."
+  echo "Closing file handles."
+  echo "Removing temporary files."
+  echo "Releasing resources."
+  echo "Cleanup completed, exiting script gracefully."
+  exit 0
+}
+
+trap cleanup SIGINT SIGTERM
+
+echo "This script will run until you press Ctrl+C."
+echo "Press Ctrl+C to see the trap function in action and exit gracefully."
+
+count=1
+while true; do
+  echo "Script is running... (iteration $count)"
+  sleep 1
+  ((count++))
+done
 ```
