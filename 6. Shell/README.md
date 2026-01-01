@@ -49,6 +49,49 @@ myfunc() {
 }
 ```
 
+## Special variables
+- special variables outside of functions:
+```bash
+#!/bin/bash
+
+echo "Script Name: $0"
+echo "First Argument: $1"
+echo "Second Argument: $2"
+echo "All Arguments: $@"
+echo "Number of Arguments: $#"
+echo "Process ID: $$"
+echo "Exit status of last executed command: $?"
+echo "Process ID of last background command: $!"
+```
+
+- special variables inside a function:
+```bash
+#!/bin/bash
+
+function print_args {
+  echo "Function Name: $FUNCNAME"
+  echo "Function first Argument: $1"
+  echo "Function second Argument: $2"
+  echo "Function all Arguments: $@"
+  echo "Number of Arguments: $#"
+}
+
+print_args 1 two 3 four
+```
+
+### Difference between `"$@"` and `"$*"`
+- `$@` and `"$@"` are not the same
+- `$*` and `"$*"` are not the same
+- `"$@"`treats each arguments as a separate entity, like an array, and arguments with spaces are preserved
+- `$*` combines all arguments into a single string
+
+## Read input
+```bash
+echo "Enter your name: "
+read name
+echo "Hello $(name)"
+```
+
 ## Arrays
 - In Bash arrays are defined by enclosing the elements in parentheses `()` and separating them with spaces
 
@@ -58,6 +101,45 @@ NAMES[0]
 NAMES[1]
 NAMES[2]
 NAMES[@] // All elements
+```
+
+## If statements
+```bash
+#!/bin/bash
+
+if [ condition ]; then
+  # code to be executed if the condition is true
+fi
+```
+```bash
+#!/bin/bash
+
+if [ condition1 ]; then
+  # code to be executed if the condition1 is true
+elif [ condition2 ]; then
+  # code to be executed if the condition2 is true
+else
+  # code to be executed if the other conditions are false
+fi
+```
+- `-eq` equals
+- `-lt` less than
+- `-gt` greater than
+- `-le` less than or equal to
+- `-ge` greater than or equal to
+
+```bash
+name="Alice"
+if [ $name -eq "Alice" ]; then
+  echo "Hello, Alice"
+fi
+```
+
+```bash
+age=23
+if [ $age -ge 18 ]; then
+  echo "You can buy beer"
+fi
 ```
 
 ## For loops
