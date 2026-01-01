@@ -1,4 +1,4 @@
-# Commands
+# Linux Commands
 
 ## Contents
 [General](#general) </br>
